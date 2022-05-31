@@ -1,11 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 // Original Authors - Wyatt Senalik
 
 namespace TimeTurned
 {
-    public class TimedObject : MonoBehaviour
+    /// <summary>
+    /// Implementation of <see cref="ITimedObject"/> that allows
+    /// <see cref="ITimedComponent"/>s and <see cref="ITimedBehaviour"/>s
+    /// to be attached to this gameobject.
+    /// </summary>
+    public class TimedObject : MonoBehaviour, ITimedObject
     {
         private ITimedBehaviour[] m_timedBehavs = null;
         // Farthest time we had gotten in the recording.
@@ -31,6 +34,7 @@ namespace TimeTurned
         }
         private void OnDestroy()
         {
+            // Remove this from its global time manager when it is destroyed.
             if (m_timeMan != null)
             {
                 m_timeMan.RemoveTimeObject(this);

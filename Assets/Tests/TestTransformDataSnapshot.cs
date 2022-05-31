@@ -1,21 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
+// Original Authors - Wyatt Senalik
 
 namespace TimeTurned.Tests
 {
     public class TestTransformDataSnapshot
     {
-        // A Test behaves as an ordinary method
-        [Test]
-        public void TestTransformDataSnapshotSimplePasses()
-        {
-            // Use the Assert class to test conditions
-        }
-
-
         [Test]
         public void TestTransformDataSnapshotConstructor1()
         {
@@ -66,7 +56,7 @@ namespace TimeTurned.Tests
             Assert.AreEqual(snap1.data.scale, snap1Unwrapped.data.scale);
         }
         [Test]
-        public void TestTransformDataSnapshotInterpolate()
+        public void TestTransformDataSnapshotInterpolateZero()
         {
             float time1 = 12.31f;
             Vector3 pos1 = new Vector3(-12.56f, 34.94f, 1.59f);
@@ -85,9 +75,65 @@ namespace TimeTurned.Tests
 
             TransformDataSnapshot interpolated = snap1.Interpolate(snap2, time1);
             Assert.AreEqual(snap1.time, interpolated.time);
-            Assert.AreEqual(snap1.data.position, interpolated.data.position);
-            Assert.AreEqual(snap1.data.rotation, interpolated.data.rotation);
-            Assert.AreEqual(snap1.data.scale, interpolated.data.scale);
+            ExtraAsserts.AreClose(snap1.data.position, interpolated.data.position);
+            ExtraAsserts.AreClose(snap1.data.rotation, interpolated.data.rotation);
+            ExtraAsserts.AreClose(snap1.data.scale, interpolated.data.scale);
+        }
+        [Test]
+        public void TestTransformDataSnapshotInterpolateOne()
+        {
+            float time1 = 12.31f;
+            Vector3 pos1 = new Vector3(-12.56f, 34.94f, 1.59f);
+            Quaternion rot1 = Quaternion.Euler(-48.70f, 29.41f, -24.32f);
+            Vector3 size1 = new Vector3(30.40f, 25.49f, 26.20f);
+
+            float time2 = 19.94f;
+            Vector3 pos2 = new Vector3(-49.90f, -37.72f, 40.70f);
+            Quaternion rot2 = Quaternion.Euler(-12.37f, -44.00f, 13.18f);
+            Vector3 size2 = new Vector3(14.00f, 3.86f, 25.24f);
+
+            TransformDataSnapshot snap1 = new TransformDataSnapshot(time1,
+                pos1, rot1, size1);
+            TransformDataSnapshot snap2 = new TransformDataSnapshot(time2,
+                pos2, rot2, size2);
+
+            TransformDataSnapshot interpolated = snap1.Interpolate(snap2, time2);
+            Assert.AreEqual(snap2.time, interpolated.time);
+            ExtraAsserts.AreClose(snap2.data.position, interpolated.data.position);
+            ExtraAsserts.AreClose(snap2.data.rotation, interpolated.data.rotation);
+            ExtraAsserts.AreClose(snap2.data.scale, interpolated.data.scale);
+        }
+        [Test]
+        public void TestTransformDataSnapshotInterpolateHalf()
+        {
+            float time1 = 12.31f;
+            Vector3 pos1 = new Vector3(-12.56f, 34.94f, 1.59f);
+            Quaternion rot1 = Quaternion.Euler(-48.70f, 29.41f, -24.32f);
+            Vector3 size1 = new Vector3(30.40f, 25.49f, 26.20f);
+
+            float time2 = 19.94f;
+            Vector3 pos2 = new Vector3(-49.90f, -37.72f, 40.70f);
+            Quaternion rot2 = Quaternion.Euler(-12.37f, -44.00f, 13.18f);
+            Vector3 size2 = new Vector3(14.00f, 3.86f, 25.24f);
+
+            TransformDataSnapshot snap1 = new TransformDataSnapshot(time1,
+                pos1, rot1, size1);
+            TransformDataSnapshot snap2 = new TransformDataSnapshot(time2,
+                pos2, rot2, size2);
+
+            float expectedT = 0.5f;
+            float testTime = 16.125f;
+            Vector3 expectedPos = new Vector3(-31.23f, -1.39f, 21.145f);
+            // TODO - this should be an actual value and not the lerp, but I have
+            // no idea what this would be.
+            Quaternion expectedRot = Quaternion.Lerp(rot1, rot2, expectedT);
+            Vector3 expectedSize = new Vector3(22.2f, 14.675f, 25.72f);
+
+            TransformDataSnapshot interpolated = snap1.Interpolate(snap2, testTime);
+            Assert.AreEqual(testTime, interpolated.time);
+            ExtraAsserts.AreClose(expectedPos, interpolated.data.position);
+            ExtraAsserts.AreClose(expectedRot, interpolated.data.rotation);
+            ExtraAsserts.AreClose(expectedSize, interpolated.data.scale);
         }
     }
 }

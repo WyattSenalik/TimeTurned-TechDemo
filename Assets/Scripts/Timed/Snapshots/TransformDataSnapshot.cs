@@ -1,13 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 // Original Authors - Wyatt Senalik
 
 namespace TimeTurned
 {
+    /// <summary>
+    /// <see cref="ISnapshot{T, TSelf}"/> for storing <see cref="TransformData"/>.
+    /// </summary>
     public class TransformDataSnapshot : ISnapshot<TransformData, TransformDataSnapshot>
     {
-        private const bool IS_DEBUGGING = true;
+        private const bool IS_DEBUGGING = false;
 
         public float time { get; private set;}
         public TransformData data { get; private set; }
@@ -25,6 +26,17 @@ namespace TimeTurned
             time = timeOfData;
             data = new TransformData(worldPos, worldRot, localScale);
         }
+
+        /// <summary>
+        /// Linearly interpolates (Lerps) this snapshot with the given
+        /// snapshot to more closesly match the given time.
+        /// 
+        /// For best results, the two snapshots should be adjacent to each other
+        /// and the given time should be between the two snapshots.
+        /// </summary>
+        /// <param name="other">Snapshot to Lerp with.</param>
+        /// <param name="targetTime">Target time in seconds that will be lerped to.
+        /// This is NOT the same as t in Vector3.Lerp.</param>
         public TransformDataSnapshot Interpolate(TransformDataSnapshot other,
             float targetTime)
         {
