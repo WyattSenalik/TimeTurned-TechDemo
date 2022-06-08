@@ -8,6 +8,7 @@ namespace TimeTurned
     /// Manages the current time for all <see cref="ITimedObject"/>s.
     /// Updates them to the current time every frame.
     /// </summary>
+    [DisallowMultipleComponent]
     public class GlobalTimeManager : DynamicSingletonMonoBehaviour<GlobalTimeManager>
     {
         private const bool IS_DEBUGGING = false;

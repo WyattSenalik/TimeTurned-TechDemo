@@ -13,7 +13,10 @@ namespace TimeTurned
         ISnapshotScrapbook<TSnap, TSnapType>
         where TSnap : ISnapshot<TSnapType, TSnap>
     {
-        private const bool IS_DEBUGGING = false;
+        private const bool IS_DEBUGGING = true;
+
+        public int Count => m_snapshots != null ? m_snapshots.Count : 0;
+
         // List of snapshots. Should always be sorted in increasing time order.
         private readonly List<TSnap> m_snapshots = null;
 

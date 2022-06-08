@@ -12,6 +12,7 @@ public class TransformData
 
     public Vector3 position => m_position;
     public Quaternion rotation => m_rotation;
+    public Vector3 eulerAngles => m_rotation.eulerAngles;
     public Vector3 scale => m_scale;
 
 
@@ -27,6 +28,27 @@ public class TransformData
         m_rotation = rot;
         m_scale = size;
     }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="transform"></param>
+    /// <param name="isWorldSpace">If the world position and rotation should be
+    /// stored OR if the local position and rotation should be stored.
+    /// World scale is NEVER saved. Only local scale.</param>
+    public TransformData(Transform transform, bool isWorldSpace = true)
+    {
+        if (isWorldSpace)
+        {
+            m_position = transform.position;
+            m_rotation = transform.rotation;
+        }
+        else
+        {
+            m_position = transform.localPosition;
+            m_rotation = transform.localRotation;
+        }
+        m_scale = transform.localScale;
+    }
 
 
     /// <summary>
@@ -36,8 +58,7 @@ public class TransformData
     /// <param name="transform">Transform to create the data from.</param>
     public static TransformData CreateGlobalTransformData(Transform transform)
     {
-        return new TransformData(transform.position, transform.rotation,
-            transform.localScale);
+        return new TransformData(transform, true);
     }
     /// <summary>
     /// Creates <see cref="TransformData"/> holding localPosition,
@@ -46,8 +67,7 @@ public class TransformData
     /// <param name="transform">Transform to create the data from.</param>
     public static TransformData CreateLocalTransformData(Transform transform)
     {
-        return new TransformData(transform.localPosition,
-            transform.localRotation, transform.localScale);
+        return new TransformData(transform, false);
     }
 
 
@@ -137,7 +157,7 @@ public class TransformData
     public static TransformData Lerp(TransformData a, TransformData b, float t)
     {
         Vector3 pos = Vector3.Lerp(a.position, b.position, t);
-        Quaternion rot = Quaternion.Lerp(a.rotation, b.rotation, t);
+        Quaternion rot = Quaternion.Slerp(a.rotation, b.rotation, t);
         Vector3 size = Vector3.Lerp(a.scale, b.scale, t);
         
         return new TransformData(pos, rot, size);
@@ -149,7 +169,7 @@ public class TransformData
         float t)
     {
         Vector3 pos = Vector3.LerpUnclamped(a.position, b.position, t);
-        Quaternion rot = Quaternion.LerpUnclamped(a.rotation, b.rotation, t);
+        Quaternion rot = Quaternion.SlerpUnclamped(a.rotation, b.rotation, t);
         Vector3 size = Vector3.LerpUnclamped(a.scale, b.scale, t);
 
         return new TransformData(pos, rot, size);

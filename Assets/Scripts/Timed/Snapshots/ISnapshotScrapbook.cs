@@ -13,6 +13,10 @@ namespace TimeTurned
     public interface ISnapshotScrapbook<TSnap, TSnapType>
         where TSnap : ISnapshot<TSnapType, TSnap>
     {
+        int Count { get; }
+        int Length => Count;
+        int Size => Count;
+
         /// <summary>
         /// Adds the given snapshot to the scrapbook.
         /// </summary>

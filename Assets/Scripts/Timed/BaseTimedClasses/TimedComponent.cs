@@ -13,6 +13,7 @@ namespace TimeTurned
     {
         public ITimedObject timedObject { get; private set; } = null;
         public bool isRecording => timedObject.isRecording;
+        public bool wasRecording => timedObject.wasRecording;
 
 
         // Domestic Initialization

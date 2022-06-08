@@ -112,7 +112,7 @@ public class StyleGuide : MonoBehaviour
     /// <param name="param2">Description for what the parameter is used for.</param>
     public void MyPublicFunction(float param1, float param2)
     {
-
+        m_memberVariable2 = (int)(param1 + param2);
     }
     /// <summary>
     /// Description of the function.
@@ -123,7 +123,7 @@ public class StyleGuide : MonoBehaviour
     /// <returns>What the output of the function can be.</returns>
     public Vector2 MyOtherPublicFunction(float param)
     {
-        return new Vector2(param, param);
+        return new Vector2(param, m_memberVariable2);
     }
 
 

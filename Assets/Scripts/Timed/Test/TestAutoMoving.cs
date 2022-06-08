@@ -6,17 +6,31 @@ using UnityEngine;
 namespace TimeTurned
 {
     [RequireComponent(typeof(TimedTransform))]
-    public class TestAutoMoving : TimedComponent
+    public class TestAutoMoving : TimedBehaviour
     {
-        [SerializeField] private Vector3 m_speed = new Vector3(-1, 0, 0);
+        [SerializeField] private Vector2 m_moveSpeed = new Vector2(0.0f, 0.0f);
+        [SerializeField] private float m_rotSpeed = 0.0f;
+        [SerializeField] private Vector2 m_scaleSpeed = new Vector2(0.0f, 0.0f);
 
 
-        private void Update()
+        public override void TimedUpdate(float deltaTime)
         {
-            // If not recording, don't change position here
-            if (!isRecording) { return; }
+            // Change position
+            Vector3 curPos3D = transform.position;
+            Vector2 curPos = new Vector2(curPos3D.x, curPos3D.y);
+            transform.position = curPos + m_moveSpeed * deltaTime;
 
-            transform.position += m_speed * Time.deltaTime;
+            // Change rotation
+            Vector3 newEulers = transform.eulerAngles;
+            newEulers.z += m_rotSpeed * deltaTime;
+            transform.eulerAngles = newEulers;
+
+            // Change scale
+            Vector3 curScale3D = transform.localScale;
+            Vector2 curScale = new Vector2(curScale3D.x, curScale3D.y);
+            curScale3D = curScale + m_scaleSpeed * deltaTime;
+            curScale3D.z = 1;
+            transform.localScale = curScale3D;
         }
     }
 }

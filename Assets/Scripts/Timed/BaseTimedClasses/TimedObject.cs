@@ -8,14 +8,18 @@ namespace TimeTurned
     /// <see cref="ITimedComponent"/>s and <see cref="ITimedBehaviour"/>s
     /// to be attached to this gameobject.
     /// </summary>
+    [DisallowMultipleComponent]
     public class TimedObject : MonoBehaviour, ITimedObject
     {
         private ITimedBehaviour[] m_timedBehavs = null;
         // Farthest time we had gotten in the recording.
         private float m_farthestTime = -1.0f;
+        // Time from previous UpdateToTime call
+        private float m_prevTime = 0.0f;
         private GlobalTimeManager m_timeMan = null;
 
         public bool isRecording { get; private set; } = true;
+        public bool wasRecording { get; private set; } = true;
 
 
         // Domestic Initialization
@@ -50,6 +54,14 @@ namespace TimeTurned
             if (isRecording)
             {
                 m_farthestTime = time;
+
+                // Call timed update
+                float deltaTime = time - m_prevTime;
+                foreach (ITimedBehaviour behav in m_timedBehavs)
+                {
+                    behav.TimedUpdate(deltaTime);
+                }
+                m_prevTime = time;
             }
             // If we stopped recording
             else if (prevRecording)
@@ -64,6 +76,8 @@ namespace TimeTurned
             {
                 behav.UpdateToTime(time);
             }
+
+            wasRecording = isRecording;
         }
     }
 }

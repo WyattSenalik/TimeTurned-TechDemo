@@ -15,6 +15,10 @@ namespace TimeTurned
         /// using that past data.
         /// </summary>
         public bool isRecording { get; }
+        /// <summary>
+        /// <see cref="isRecording"/> from the previous UpdateToTime call.
+        /// </summary>
+        public bool wasRecording { get; }
 
         /// <summary>
         /// Updates all <see cref="ITimedBehaviour"/> attached to this 

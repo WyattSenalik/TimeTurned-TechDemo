@@ -14,18 +14,18 @@ namespace TimeTurned
         public TransformData data { get; private set; }
 
 
-        public TransformDataSnapshot(float timeOfData,
-            TransformData transformData)
+        public TransformDataSnapshot(float timeOfData, TransformData transformData)
         {
             time = timeOfData;
             data = transformData;
         }
         public TransformDataSnapshot(float timeOfData,
-            Vector3 worldPos, Quaternion worldRot, Vector3 localScale)
-        {
-            time = timeOfData;
-            data = new TransformData(worldPos, worldRot, localScale);
-        }
+            Vector3 worldPos, Quaternion worldRot, Vector3 localScale):
+            this(timeOfData, new TransformData(worldPos, worldRot, localScale))
+        { }
+        public TransformDataSnapshot(float timeOfData, Transform transform):
+            this(timeOfData, new TransformData(transform))
+        { }
 
         /// <summary>
         /// Linearly interpolates (Lerps) this snapshot with the given

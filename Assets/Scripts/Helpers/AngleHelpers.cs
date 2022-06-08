@@ -91,4 +91,39 @@ public static class AngleHelpers
         }
         return angles;
     }
+    /// <summary>
+    /// Converts the given angle to its positive equivalent.
+    /// 
+    /// Example: If given -90.0f, returns 270.0f.
+    /// </summary>
+    public static float ToPositiveAngle(float angle)
+    {
+        if (angle > 0.0f) { return angle; }
+        while (angle < 0.0f) { angle += 360.0f; }
+        return angle;
+    }
+    /// <summary>
+    /// Converts the given angles to their positive equivalent.
+    /// 
+    /// Example: If given -90.0f, returns 270.0f.
+    /// </summary>
+    public static Vector3 ToPositiveAngles(Vector3 angles)
+    {
+        float xAngle = ToPositiveAngle(angles.x);
+        float yAngle = ToPositiveAngle(angles.y);
+        float zAngle = ToPositiveAngle(angles.z);
+        return new Vector3(xAngle, yAngle, zAngle);
+    }
+    /// <summary>
+    /// Subtracts a from b (b - a) accounts for wrapping.
+    /// 
+    /// Restricts the angle between -180.0f and 180.0f
+    /// </summary>
+    public static float SubtractAngles(float a, float b)
+    {
+        float posA = ToPositiveAngle(a);
+        float posB = ToPositiveAngle(b) + 360.0f;
+        float rawDiff = posB - posA;
+        return RestrictAngle(rawDiff);
+    }
 }
