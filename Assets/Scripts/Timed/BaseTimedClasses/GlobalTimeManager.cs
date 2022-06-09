@@ -13,7 +13,9 @@ namespace TimeTurned
     {
         private const bool IS_DEBUGGING = false;
 
-        // Serialized just for testing
+        public float curTime => m_curTime;
+
+        // Serialized just for testing TODO remove serialization
         [SerializeField] private float m_timeScale = 1.0f;
 
         private readonly List<ITimedObject> m_objects = new List<ITimedObject>();
@@ -27,7 +29,7 @@ namespace TimeTurned
             m_curTime = Mathf.Max(0, m_curTime);
             UpdateTimedObjects(m_curTime);
 
-            // For testing
+            // For testing TODO delete
             if (Input.GetKey(KeyCode.T))
             {
                 UpdateTimedObjects(0);

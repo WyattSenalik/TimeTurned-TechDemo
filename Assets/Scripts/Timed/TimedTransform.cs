@@ -58,8 +58,8 @@ namespace TimeTurned
                 return;
             }
 
-            // If its the first update, take a snapshot.
-            if (time == 0.0f)
+            // If no snapshots have been taken (first update), take one
+            if (m_scrapbook.Count < 1)
             {
                 TakeSnapshot(time);
                 return;

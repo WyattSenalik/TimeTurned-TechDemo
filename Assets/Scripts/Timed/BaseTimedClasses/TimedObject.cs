@@ -12,14 +12,18 @@ namespace TimeTurned
     public class TimedObject : MonoBehaviour, ITimedObject
     {
         private ITimedBehaviour[] m_timedBehavs = null;
+        // The spawn time of this object
+        private float m_spawnTime = float.MaxValue;
         // Farthest time we had gotten in the recording.
-        private float m_farthestTime = -1.0f;
+        private float m_farthestTime = float.MinValue;
         // Time from previous UpdateToTime call
         private float m_prevTime = 0.0f;
         private GlobalTimeManager m_timeMan = null;
 
         public bool isRecording { get; private set; } = true;
         public bool wasRecording { get; private set; } = true;
+        public float curTime => m_timeMan != null ? m_timeMan.curTime : -1.0f;
+        public float spawnTime => m_spawnTime;
 
 
         // Domestic Initialization
@@ -34,6 +38,11 @@ namespace TimeTurned
             #region Asserts
             CustomDebug.AssertSingletonMonoBehaviourIsNotNull(m_timeMan, this);
             #endregion Asserts
+
+            m_spawnTime = m_timeMan.curTime;
+            m_farthestTime = m_spawnTime;
+            m_prevTime = m_spawnTime;
+
             m_timeMan.AddTimeObject(this);
         }
         private void OnDestroy()
@@ -49,7 +58,8 @@ namespace TimeTurned
         public void UpdateToTime(float time)
         {
             bool prevRecording = isRecording;
-            // We only record data for new times.
+            // We only record data for new times that are
+            // farther than the current.
             isRecording = time > m_farthestTime;
             if (isRecording)
             {
@@ -72,9 +82,16 @@ namespace TimeTurned
                 }
             }
 
-            foreach (ITimedBehaviour behav in m_timedBehavs)
+            // If the time is before the object spawned, turn it off, since
+            // it isn't supposed to exist yet. Also don't update its behaviours.
+            bool isTimeBeforeSpawn = time < m_spawnTime;
+            gameObject.SetActive(!isTimeBeforeSpawn);
+            if (!isTimeBeforeSpawn)
             {
-                behav.UpdateToTime(time);
+                foreach (ITimedBehaviour behav in m_timedBehavs)
+                {
+                    behav.UpdateToTime(time);
+                }
             }
 
             wasRecording = isRecording;

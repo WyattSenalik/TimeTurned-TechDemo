@@ -19,6 +19,14 @@ namespace TimeTurned
         /// <see cref="isRecording"/> from the previous UpdateToTime call.
         /// </summary>
         public bool wasRecording { get; }
+        /// <summary>
+        /// Current time.
+        /// </summary>
+        public float curTime { get; }
+        /// <summary>
+        /// Time this <see cref="ITimedObject"/> was created.
+        /// </summary>
+        public float spawnTime { get; }
 
         /// <summary>
         /// Updates all <see cref="ITimedBehaviour"/> attached to this 

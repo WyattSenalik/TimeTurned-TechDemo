@@ -13,7 +13,7 @@ namespace TimeTurned
         ISnapshotScrapbook<TSnap, TSnapType>
         where TSnap : ISnapshot<TSnapType, TSnap>
     {
-        private const bool IS_DEBUGGING = true;
+        private const bool IS_DEBUGGING = false;
 
         public int Count => m_snapshots != null ? m_snapshots.Count : 0;
 
