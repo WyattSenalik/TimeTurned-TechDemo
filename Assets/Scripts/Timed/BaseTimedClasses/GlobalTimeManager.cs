@@ -55,6 +55,12 @@ namespace TimeTurned
         {
             m_objects.Remove(obj);
         }
+        public void SetTime(float newTime)
+        {
+            newTime = Mathf.Max(newTime, 0.0f);
+            UpdateTimedObjects(newTime);
+            m_curTime = newTime;
+        }
 
 
         /// <summary>

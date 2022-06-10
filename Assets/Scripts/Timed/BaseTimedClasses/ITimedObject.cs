@@ -20,6 +20,10 @@ namespace TimeTurned
         /// </summary>
         public bool wasRecording { get; }
         /// <summary>
+        /// If this <see cref="ITimedObject"/> should be recording when possible.
+        /// </summary>
+        public bool shouldRecord { get; set; }
+        /// <summary>
         /// Current time.
         /// </summary>
         public float curTime { get; }
@@ -27,6 +31,10 @@ namespace TimeTurned
         /// Time this <see cref="ITimedObject"/> was created.
         /// </summary>
         public float spawnTime { get; }
+        /// <summary>
+        /// Furthest time this timed object has seen.
+        /// </summary>
+        public float farthestTime { get; }
 
         /// <summary>
         /// Updates all <see cref="ITimedBehaviour"/> attached to this 

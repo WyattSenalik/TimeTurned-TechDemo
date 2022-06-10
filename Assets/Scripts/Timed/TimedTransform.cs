@@ -14,7 +14,6 @@ namespace TimeTurned
     public class TimedTransform : TimedBehaviour
     {
         private const bool IS_DEBUGGING = false;
-        private const int SNAPS_PER_REQUEST = 1;
 
         [SerializeField] private bool m_shouldTrackRotation = false;
         [Tooltip("How often (in seconds) until the next snapshot is taken. " +

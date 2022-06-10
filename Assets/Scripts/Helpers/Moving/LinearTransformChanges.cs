@@ -36,6 +36,14 @@ namespace Helpers
         private bool m_allowNegativeScale = false;
 
 
+        /* For Fun
+        private void Awake()
+        {
+            m_posVelocity = Random.insideUnitSphere * Random.Range(0.1f, 3.0f);
+            m_rotAngularVelocity = new Vector3(0, 0, Random.Range(10.0f, 360.0f));
+            m_scaleVelocity = Random.insideUnitSphere * Random.Range(0.1f, 3.0f);
+        }
+        */
         /// <summary>
         /// Updates position, rotation, and scale given the delta time.
         /// </summary>

@@ -16,6 +16,7 @@ namespace TimeTurned
         public bool wasRecording => timedObject.wasRecording;
         public float curTime => timedObject.curTime;
         public float spawnTime => timedObject.spawnTime;
+        public float furthestTime => timedObject.farthestTime;
 
 
         // Domestic Initialization

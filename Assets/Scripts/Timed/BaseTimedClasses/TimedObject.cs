@@ -11,6 +11,10 @@ namespace TimeTurned
     [DisallowMultipleComponent]
     public class TimedObject : MonoBehaviour, ITimedObject
     {
+        private const bool IS_DEBUGGING = false;
+
+        [SerializeField] private bool m_shouldRecord = true;
+
         private ITimedBehaviour[] m_timedBehavs = null;
         // The spawn time of this object
         private float m_spawnTime = float.MaxValue;
@@ -22,8 +26,11 @@ namespace TimeTurned
 
         public bool isRecording { get; private set; } = true;
         public bool wasRecording { get; private set; } = true;
+        public bool shouldRecord { get => m_shouldRecord; set => m_shouldRecord = value; }
         public float curTime => m_timeMan != null ? m_timeMan.curTime : -1.0f;
         public float spawnTime => m_spawnTime;
+        public float farthestTime => m_farthestTime != float.MinValue ?
+            m_farthestTime : 0.0f;
 
 
         // Domestic Initialization
@@ -58,20 +65,19 @@ namespace TimeTurned
         public void UpdateToTime(float time)
         {
             bool prevRecording = isRecording;
+            float deltaTime = time - m_prevTime;
             // We only record data for new times that are
-            // farther than the current.
-            isRecording = time > m_farthestTime;
+            // farther than the any previous time.
+            isRecording = time > m_farthestTime && shouldRecord;
             if (isRecording)
             {
                 m_farthestTime = time;
 
                 // Call timed update
-                float deltaTime = time - m_prevTime;
                 foreach (ITimedBehaviour behav in m_timedBehavs)
                 {
                     behav.TimedUpdate(deltaTime);
                 }
-                m_prevTime = time;
             }
             // If we stopped recording
             else if (prevRecording)
@@ -82,19 +88,29 @@ namespace TimeTurned
                 }
             }
 
-            // If the time is before the object spawned, turn it off, since
-            // it isn't supposed to exist yet. Also don't update its behaviours.
+            // We want to disable the gameobject and not call updateToTime
+            // if either we are before it should spawn or we are after the
+            // furthest time and we shouldn't be recording.
             bool isTimeBeforeSpawn = time < m_spawnTime;
-            gameObject.SetActive(!isTimeBeforeSpawn);
-            if (!isTimeBeforeSpawn)
+            bool isTimeAfterRecording = time > m_farthestTime;
+            bool shouldBeInactive = isTimeBeforeSpawn || (isTimeAfterRecording && !shouldRecord);
+            bool shouldBeActive = !shouldBeInactive;
+            CustomDebug.LogForComponent(
+                $"{nameof(isTimeBeforeSpawn)}={isTimeBeforeSpawn}; " +
+                $"{nameof(isTimeAfterRecording)}={isTimeAfterRecording}; " +
+                $"{nameof(shouldBeInactive)}={shouldBeInactive}",
+                this, IS_DEBUGGING);
+            gameObject.SetActive(shouldBeActive);
+            if (shouldBeActive)
             {
                 foreach (ITimedBehaviour behav in m_timedBehavs)
                 {
                     behav.UpdateToTime(time);
                 }
-            }
+            }            
 
             wasRecording = isRecording;
+            m_prevTime = time;
         }
     }
 }
