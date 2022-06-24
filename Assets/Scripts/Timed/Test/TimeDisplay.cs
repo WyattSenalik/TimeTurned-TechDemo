@@ -11,6 +11,8 @@ namespace TimeTurned.Test
     public class TimeDisplay : TimedBehaviour
     {
         private TextMeshProUGUI m_textMesh = null;
+        private GlobalTimeManager m_globalTimeMan = null;
+        private MultiPlayerController m_controller = null;
 
 
         // Domestic Initialization
@@ -23,6 +25,16 @@ namespace TimeTurned.Test
             CustomDebug.AssertComponentIsNotNull(m_textMesh, this);
             #endregion Asserts
         }
+        // Foreign Initialization
+        private void Start()
+        {
+            m_globalTimeMan = GlobalTimeManager.instance;
+            m_controller = MultiPlayerController.instance;
+            #region Asserts
+            CustomDebug.AssertSingletonMonoBehaviourIsNotNull(m_globalTimeMan, this);
+            CustomDebug.AssertSingletonMonoBehaviourIsNotNull(m_controller, this);
+            #endregion Asserts
+        }
 
 
         public override void UpdateToTime(float time)
@@ -33,11 +45,19 @@ namespace TimeTurned.Test
 
         private void SetText(float time)
         {
+            TimedObject activePlayer = m_controller.activeClone;
             m_textMesh.text = time.ToString();
             Color col = Color.white;
-            if (!timedObject.isRecording)
+            if (activePlayer != null && !activePlayer.isRecording)
             {
-                col = Color.red;
+                if (m_globalTimeMan.timeScale > 0)
+                {
+                    col = Color.green;
+                }
+                else if (m_globalTimeMan.timeScale < 0)
+                {
+                    col = Color.red;
+                }
             }
             m_textMesh.color = col;
         }

@@ -1708,6 +1708,10 @@ MonoBehaviour:
   - {fileID: 1488096106}
   - {fileID: 1134889078}
   - {fileID: 1301580170}
+  m_playerCols:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 0, g: 0, b: 1, a: 1}
 --- !u!4 &1742962980
 Transform:
   m_ObjectHideFlags: 0

@@ -15,6 +15,11 @@ namespace TimeTurned
 
         public float curTime => m_curTime;
 
+        public float timeScale
+        {
+            get => m_timeScale;
+            set => m_timeScale = value;
+        }
         // Serialized just for testing TODO remove serialization
         [SerializeField] private float m_timeScale = 1.0f;
 
