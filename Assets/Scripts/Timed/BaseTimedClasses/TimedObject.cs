@@ -95,11 +95,13 @@ namespace TimeTurned
             bool isTimeAfterRecording = time > m_farthestTime;
             bool shouldBeInactive = isTimeBeforeSpawn || (isTimeAfterRecording && !shouldRecord);
             bool shouldBeActive = !shouldBeInactive;
+            #region Logs
             CustomDebug.LogForComponent(
                 $"{nameof(isTimeBeforeSpawn)}={isTimeBeforeSpawn}; " +
                 $"{nameof(isTimeAfterRecording)}={isTimeAfterRecording}; " +
                 $"{nameof(shouldBeInactive)}={shouldBeInactive}",
                 this, IS_DEBUGGING);
+            #endregion Logs
             gameObject.SetActive(shouldBeActive);
             if (shouldBeActive)
             {

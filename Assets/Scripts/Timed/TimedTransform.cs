@@ -101,13 +101,13 @@ namespace TimeTurned
         /// </summary>
         private void ChangeTransformToTime(float time)
         {
-            TransformDataSnapshot snap = m_scrapbook.GetSnapshot(time);
-            TransformData data = snap.data;
+            TransformDataSnapshot t_snap = m_scrapbook.GetSnapshot(time);
+            TransformData t_data = t_snap.data;
             #region Logs
-            CustomDebug.LogForComponent($"Applying transform data ({data}) at " +
+            CustomDebug.LogForComponent($"Applying transform data ({t_data}) at " +
                 $" time {time}.", this, IS_DEBUGGING);
             #endregion Logs
-            data.ApplyGlobal(transform);
+            t_data.ApplyGlobal(transform);
         }
         /// <summary>
         /// Takes a snapshot of the transform's current values
@@ -125,8 +125,8 @@ namespace TimeTurned
             #endregion Logs
             m_lastSnapTime = time;
 
-            TransformDataSnapshot snap = new TransformDataSnapshot(time, transform);
-            m_scrapbook.AddSnapshot(snap);
+            TransformDataSnapshot t_snap = new TransformDataSnapshot(time, transform);
+            m_scrapbook.AddSnapshot(t_snap);
             m_amountSnapshots = m_scrapbook.Count;
         }
     }

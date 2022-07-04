@@ -2,18 +2,21 @@ using UnityEngine;
 // Original Author - Wyatt Senalik
 
 
-/// <summary>
-/// Destroys this gameObject after a specified amount of seconds.
-/// </summary>
-public class DestroyAfterSeconds : MonoBehaviour
+namespace Helpers
 {
-    // After how many seconds do we destroy this object
-    [SerializeField] private float m_secondsToLive = 10.0f;
-
-
-    // Domestic Initialization
-    private void Awake()
+    /// <summary>
+    /// Destroys this gameObject after a specified amount of seconds.
+    /// </summary>
+    public class DestroyAfterSeconds : MonoBehaviour
     {
-        Destroy(gameObject, m_secondsToLive);
+        // After how many seconds do we destroy this object
+        [SerializeField] private float m_secondsToLive = 10.0f;
+
+
+        // Domestic Initialization
+        private void Awake()
+        {
+            Destroy(gameObject, m_secondsToLive);
+        }
     }
 }
