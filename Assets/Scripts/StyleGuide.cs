@@ -149,13 +149,13 @@ public class StyleGuide : MonoBehaviour
     /// </summary>
     private void MyPrivateFunction()
     {
-        int[] imaginaryList = { 0, 1, 2, 3, 4 };
-        int currentIndex = 0;
+        int[] t_imaginaryList = { 0, 1, 2, 3, 4 };
+        int t_currentIndex = 0;
         // This is a comment explaining the while loop and what it does
-        while (currentIndex < imaginaryList.Length)
+        while (t_currentIndex < t_imaginaryList.Length)
         {
-            int currentVariable = imaginaryList[currentIndex];
-            ++currentIndex;
+            int t_currentVariable = t_imaginaryList[t_currentIndex];
+            ++t_currentIndex;
         }
     }
 
@@ -196,3 +196,5 @@ public interface IMyInterface
 //      with this same naming convention in functions and such.
 // m_privateMemberVariables - Underscore lowerCamelCase to tell these are private members.
 // s_staticVariables - s_ and lowerCamelCase to tell these are private static variables.
+// t_temporaryVariables - t_ and lowerCamelCase to tell these are temporary variables that
+//      exist only in the scope of the funciton.
