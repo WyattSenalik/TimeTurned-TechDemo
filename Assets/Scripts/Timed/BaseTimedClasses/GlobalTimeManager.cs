@@ -49,7 +49,7 @@ namespace TimeTurned
         /// </summary>
         public void AddTimeObject(ITimedObject obj)
         {
-            obj.UpdateToTime(m_curTime);
+            obj.SetToTime(m_curTime);
             m_objects.Add(obj);
         }
         /// <summary>
@@ -69,7 +69,7 @@ namespace TimeTurned
 
 
         /// <summary>
-        /// Calls <see cref="ITimedObject.UpdateToTime(float)"/> for each
+        /// Calls <see cref="ITimedObject.SetToTime(float)"/> for each
         /// <see cref="ITimedObject"/>.
         /// </summary>
         /// <param name="time">The time to update the 
@@ -82,7 +82,7 @@ namespace TimeTurned
             #endregion Logs
             foreach (ITimedObject obj in m_objects)
             {
-                obj.UpdateToTime(time);
+                obj.SetToTime(time);
             }
         }
     }

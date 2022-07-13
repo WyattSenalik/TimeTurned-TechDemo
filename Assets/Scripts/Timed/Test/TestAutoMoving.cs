@@ -6,7 +6,7 @@ using UnityEngine;
 namespace TimeTurned
 {
     [RequireComponent(typeof(TimedTransform))]
-    public class TestAutoMoving : TimedBehaviour
+    public class TestAutoMoving : TimedObserver
     {
         [SerializeField] private Vector2 m_moveSpeed = new Vector2(0.0f, 0.0f);
         [SerializeField] private float m_rotSpeed = 0.0f;

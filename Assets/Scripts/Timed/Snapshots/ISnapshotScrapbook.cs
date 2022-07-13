@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 // Original Authors - Wyatt Senalik
 
 namespace TimeTurned
@@ -31,5 +28,10 @@ namespace TimeTurned
         /// Gets the time of the latest (in time) snapshot added.
         /// </summary>
         float GetLatestTime();
+        /// <summary>
+        /// Removes all snapshots after (and including) the given time.
+        /// </summary>
+        /// <returns>The amount of snapshots removed from the scrapbook.</returns>
+        int RemoveSnapshotsAfter(float time);
     }
 }

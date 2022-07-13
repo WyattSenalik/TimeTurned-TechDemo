@@ -101,6 +101,41 @@ namespace TimeTurned
             if (m_snapshots.Count <= 0) { return -1.0f; }
             return m_snapshots[m_snapshots.Count - 1].time;
         }
+        public int RemoveSnapshotsAfter(float time)
+        {
+            // Get the index directly before the time.
+            int t_index = FindClosestSnapshot(time);
+            // There are no snapshots.
+            if (t_index < 0) { return 0; }
+
+            int t_amountRemoved = 0;
+            while (t_index + 1 < Count)
+            {
+                // Remove last snapshot
+                m_snapshots.RemoveAt(Count - 1);
+                ++t_amountRemoved;
+            }
+            // Now the scrapbook contains snapshots up to (and including)
+            // the snapshot at the found index. Its possible that the snapshot
+            // is for exactly the sought time.
+            TSnap t_snap = m_snapshots[Count - 1];
+            if (t_snap.time == time)
+            {
+                m_snapshots.RemoveAt(Count - 1);
+                ++t_amountRemoved;
+            }
+            else
+            {
+                // Be extra careful and check that our assumption is not wrong.
+                #region Asserts
+                CustomDebug.AssertIsTrueForObj(t_snap.time <= time, 
+                    $"found snapshot {t_snap} at time {t_snap.time} to be " +
+                    $"before the sought time of {time}.", this);
+                #endregion Asserts
+            }
+
+            return t_amountRemoved;
+        }
 
 
 

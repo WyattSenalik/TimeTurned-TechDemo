@@ -8,7 +8,7 @@ namespace TimeTurned
     /// <summary>
     /// Moves <see cref="ITimedObject"/> along its up.
     /// </summary>
-    public class TimedMoveRight : TimedBehaviour
+    public class TimedMoveRight : TimedObserver
     {
         [SerializeField] private float m_speed = 1.0f;
 

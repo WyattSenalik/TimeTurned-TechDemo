@@ -10,7 +10,7 @@ namespace TimeTurned
     /// </summary>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(LinearTransformChanges))]
-    public class TimedLinearTransformChanges : TimedBehaviour
+    public class TimedLinearTransformChanges : TimedObserver
     {
         private LinearTransformChanges m_linearTransChanges = null;
 

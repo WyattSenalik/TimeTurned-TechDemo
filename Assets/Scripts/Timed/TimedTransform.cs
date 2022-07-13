@@ -11,9 +11,10 @@ namespace TimeTurned
     /// </summary>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(VelocityMonitor))]
-    public class TimedTransform : TimedBehaviour
+    public class TimedTransform : 
+        TimedRecorder<TransformDataSnapshot, TransformData>
     {
-        private const bool IS_DEBUGGING = false;
+        private const bool IS_DEBUGGING = true;
 
         [SerializeField] private bool m_shouldTrackRotation = false;
         [Tooltip("How often (in seconds) until the next snapshot is taken. " +
@@ -24,16 +25,7 @@ namespace TimeTurned
         [SerializeField, Min(0f), ShowIf(nameof(m_shouldTrackRotation))]
         private float m_snapshotFreq = 0.1f;
 
-
-        [ShowNonSerializedField]
-        private int m_amountSnapshots = 0;
-
         private VelocityMonitor m_velMon = null;
-        // Scrapbook that holds the transform snapshots.
-        private ISnapshotScrapbook<TransformDataSnapshot, TransformData>
-            m_scrapbook = new SnapshotScrapbook<TransformDataSnapshot, TransformData>();
-        // When the last snapshot was taken.
-        private float m_lastSnapTime = float.MinValue;
 
 
         // Domestic Initialization
@@ -48,86 +40,41 @@ namespace TimeTurned
         }
 
 
-        public override void UpdateToTime(float time)
+        protected override TransformDataSnapshot CreateNewSnapshot(float time)
         {
-            // If we are not recording, just update the transform to the time.
-            if (!isRecording)
-            {
-                ChangeTransformToTime(time);
-                return;
-            }
-
-            // If no snapshots have been taken (first update), take one
-            if (m_scrapbook.Count < 1)
-            {
-                TakeSnapshot(time);
-                return;
-            }
+            return new TransformDataSnapshot(time, transform);
+        }
+        protected override void ApplySnapshotData(TransformData snapData)
+        {
+            #region Logs
+            CustomDebug.LogForComponent($"Applying transform data ({snapData}) " +
+                $"at time {curTime}.", this, IS_DEBUGGING);
+            #endregion Logs
+            snapData.ApplyGlobal(transform);
+        }
+        protected override bool ShouldTakeNewSnapshot(float time)
+        {
             // If velocity changed since last time, we need to take more snapshots.
             if (m_velMon.DidPositionVelocityChange() ||
                 m_velMon.DidScaleVelocityChange())
             {
-                #region Logs
-                CustomDebug.LogForComponent($"Velocity changed. Taking " +
-                    $"snapshots at time {time}", this, IS_DEBUGGING);
-                #endregion Logs
-                TakeSnapshot(time);
-                return;
+                CustomDebug.LogForComponent($"A velocity changed", this, 
+                    IS_DEBUGGING);
+                return true;
             }
             // If we are tracking rotation and rotation is/was changing,
             // then update based on frequency
             if (m_shouldTrackRotation && m_velMon.IsOrWasRotationChanging() &&
-                time >= m_lastSnapTime + m_snapshotFreq)
+                time >= lastSnapTime + m_snapshotFreq)
             {
                 #region Logs
                 CustomDebug.LogForComponent($"Frequency reached. Taking " +
                     $"snapshots at time {time}", this, IS_DEBUGGING);
                 #endregion Logs
-                TakeSnapshot(time);
-                return;
+                return true;
             }
-        }
-        public override void OnRecordingStop(float time)
-        {
-            base.OnRecordingStop(time);
 
-            // When the recording stops, take a snapshot.
-            TakeSnapshot(time);
-        }
-
-
-        /// <summary>
-        /// Gets the closest snapshot and applies it to the transform.
-        /// </summary>
-        private void ChangeTransformToTime(float time)
-        {
-            TransformDataSnapshot t_snap = m_scrapbook.GetSnapshot(time);
-            TransformData t_data = t_snap.data;
-            #region Logs
-            CustomDebug.LogForComponent($"Applying transform data ({t_data}) at " +
-                $" time {time}.", this, IS_DEBUGGING);
-            #endregion Logs
-            t_data.ApplyGlobal(transform);
-        }
-        /// <summary>
-        /// Takes a snapshot of the transform's current values
-        /// and saves it for the given time.
-        /// </summary>
-        /// <param name="time"></param>
-        private void TakeSnapshot(float time)
-        {
-            // Don't retake any snapshots
-            if (time == m_lastSnapTime) { return; }
-
-            #region Logs
-            CustomDebug.LogForComponent($"Creating snapshot at time {time} ",
-                this, IS_DEBUGGING);
-            #endregion Logs
-            m_lastSnapTime = time;
-
-            TransformDataSnapshot t_snap = new TransformDataSnapshot(time, transform);
-            m_scrapbook.AddSnapshot(t_snap);
-            m_amountSnapshots = m_scrapbook.Count;
+            return false;
         }
     }
 }

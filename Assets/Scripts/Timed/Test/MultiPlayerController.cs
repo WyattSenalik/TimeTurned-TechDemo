@@ -6,8 +6,8 @@ namespace TimeTurned
 {
     public class MultiPlayerController : SingletonMonoBehaviour<MultiPlayerController>
     {
-        public TimedObject activeClone => m_activeClone;
-        private TimedObject m_activeClone = null;
+        public ITimedObject activeClone => m_activeClone;
+        private ITimedObject m_activeClone = null;
 
         [SerializeField] private TimedObject[] m_playerObjs = new TimedObject[3];
         [SerializeField] private Color[] m_playerCols = new Color[3]
@@ -65,12 +65,12 @@ namespace TimeTurned
             CustomDebug.AssertIndexIsInRange(activeCloneIndex, m_playerObjs, this);
             #endregion Asserts
 
-            TimedObject activeObj = m_playerObjs[activeCloneIndex];
+            ITimedObject activeObj = m_playerObjs[activeCloneIndex];
             return activeObj.shouldRecord;
         }
         private void DisableClone(int cloneIndex)
         {
-            TimedObject cloneObj = m_playerObjs[cloneIndex];
+            ITimedObject cloneObj = m_playerObjs[cloneIndex];
             cloneObj.shouldRecord = false;
             SpriteRenderer sprRend = cloneObj.GetComponent<SpriteRenderer>();
             #region Asserts
@@ -102,7 +102,7 @@ namespace TimeTurned
         }
         private IEnumerator RewindTimeCoroutine(int activeCloneIndex)
         {
-            TimedObject activeObj = m_playerObjs[activeCloneIndex];
+            ITimedObject activeObj = m_playerObjs[activeCloneIndex];
             float farthestTime = activeObj.farthestTime;
 
             

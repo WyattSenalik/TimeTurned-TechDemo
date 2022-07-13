@@ -3,8 +3,8 @@
 namespace TimeTurned
 {
     /// <summary>
-    /// Object that <see cref="ITimedComponent"/>s and 
-    /// <see cref="ITimedBehaviour"/> can be attached to.
+    /// Object that <see cref="ITimedComponent"/>s, <see cref="ITimedObserver"/>s,
+    /// and <see cref="ITimedRecorder"/>s can be attached to.
     /// </summary>
     public interface ITimedObject : IMonoBehaviour
     {
@@ -37,9 +37,10 @@ namespace TimeTurned
         public float farthestTime { get; }
 
         /// <summary>
-        /// Updates all <see cref="ITimedBehaviour"/> attached to this 
+        /// Updates all <see cref="ITimedObserver"/>s and
+        /// <see cref="ITimedRecorder"/>s attached to this 
         /// <see cref="ITimedObject"/> to the given time.
         /// </summary>
-        public void UpdateToTime(float time);
+        public void SetToTime(float time);
     }
 }

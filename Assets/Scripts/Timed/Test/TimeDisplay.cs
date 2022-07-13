@@ -8,7 +8,7 @@ using TMPro;
 namespace TimeTurned.Test
 {
     [RequireComponent(typeof(TextMeshProUGUI))]
-    public class TimeDisplay : TimedBehaviour
+    public class TimeDisplay : TimedObserver
     {
         private TextMeshProUGUI m_textMesh = null;
         private GlobalTimeManager m_globalTimeMan = null;
@@ -37,15 +37,15 @@ namespace TimeTurned.Test
         }
 
 
-        public override void UpdateToTime(float time)
+        public override void TimedUpdate(float deltaTime)
         {
-            SetText(time);
+            SetText(curTime);
         }
 
 
         private void SetText(float time)
         {
-            TimedObject activePlayer = m_controller.activeClone;
+            ITimedObject activePlayer = m_controller.activeClone;
             m_textMesh.text = time.ToString();
             Color col = Color.white;
             if (activePlayer != null && !activePlayer.isRecording)

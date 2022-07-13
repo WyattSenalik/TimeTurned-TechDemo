@@ -8,7 +8,7 @@ namespace TimeTurned
     /// some easy references to the <see cref="ITimedObject"/> that this script is
     /// attached to.
     /// </summary>
-    [RequireComponent(typeof(TimedObject))]
+    [RequireComponent(typeof(ITimedObject))]
     public class TimedComponent : MonoBehaviour, ITimedComponent
     {
         public ITimedObject timedObject { get; private set; } = null;

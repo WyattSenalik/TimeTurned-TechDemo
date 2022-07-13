@@ -9,7 +9,7 @@ namespace TimeTurned.Test
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(TimedTransform))]
-    public class TimedMovingTest : TimedBehaviour
+    public class TimedMovingTest : TimedObserver
     {
         [SerializeField, Min(0.0f)] private float m_speed = 2;
         [SerializeField, Min(0.0f)] private float m_fireCooldown = 1.0f;
