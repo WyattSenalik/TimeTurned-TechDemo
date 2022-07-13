@@ -454,6 +454,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c5a32e9d4532ac4fbb197661a2167e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_takeSnapOnRecordingResume: 0
+  m_takeSnapOnRecordingStop: 1
   m_shouldTrackRotation: 1
   m_snapshotFreq: 0.1
 --- !u!114 &529530547
@@ -483,6 +485,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_shouldRecord: 1
+  m_alwaysRecordWhenShould: 0
 --- !u!212 &529530549
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -615,6 +618,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_shouldRecord: 1
+  m_alwaysRecordWhenShould: 0
 --- !u!114 &592836391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1024,6 +1028,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_shouldRecord: 1
+  m_alwaysRecordWhenShould: 0
 --- !u!114 &1134889079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1052,6 +1057,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c5a32e9d4532ac4fbb197661a2167e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_takeSnapOnRecordingResume: 0
+  m_takeSnapOnRecordingStop: 1
   m_shouldTrackRotation: 0
   m_snapshotFreq: 0
 --- !u!114 &1134889081
@@ -1170,6 +1177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_shouldRecord: 1
+  m_alwaysRecordWhenShould: 0
 --- !u!114 &1301580171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1198,6 +1206,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c5a32e9d4532ac4fbb197661a2167e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_takeSnapOnRecordingResume: 0
+  m_takeSnapOnRecordingStop: 1
   m_shouldTrackRotation: 0
   m_snapshotFreq: 0
 --- !u!114 &1301580173
@@ -1331,6 +1341,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c5a32e9d4532ac4fbb197661a2167e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_takeSnapOnRecordingResume: 0
+  m_takeSnapOnRecordingStop: 1
   m_shouldTrackRotation: 0
   m_snapshotFreq: 0
 --- !u!114 &1488096106
@@ -1346,6 +1358,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_shouldRecord: 1
+  m_alwaysRecordWhenShould: 0
 --- !u!212 &1488096107
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1546,6 +1559,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c5a32e9d4532ac4fbb197661a2167e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_takeSnapOnRecordingResume: 0
+  m_takeSnapOnRecordingStop: 1
   m_shouldTrackRotation: 1
   m_snapshotFreq: 0.1
 --- !u!114 &1700221079
@@ -1561,6 +1576,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_shouldRecord: 1
+  m_alwaysRecordWhenShould: 0
 --- !u!212 &1700221080
 SpriteRenderer:
   m_ObjectHideFlags: 0
